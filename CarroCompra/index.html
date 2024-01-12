@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESTIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Incluye la biblioteca Vue.js desde un CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="navbar">
+            <ul>
+                <li v-for="(item, index) in navbar" :key="index">
+
+                    <span v-if="index === navbar.length - 1">
+
+                        <a class="nav-item" @click="toggleSidebar">{{ item }}</a>
+
+                    </span>
+
+                    <span v-else="">
+
+                        <a class="nav-item" href="index.html">{{ item }}</a>
+
+                    </span>
+                </li>
+            </ul>
+            <div id="sidebar" style="display: none;">
+                <button @click="w3_close" class="cerrar">✖</button>
+                <span v-if="total==0">
+                    <h3>Tu pedido: </h3>
+                </span>
+                <span v-else>
+                    <h3>Tu pedido: {{total}} </h3>
+                </span>
+                <button class="boton" id="pagar" type="button">Pulse para finalizar compra</button>
+            </div>
+        </div>
+        <div class="items">
+            <div class="card" v-for="i in articulos.slice((pagina-1)*articulosPorPagina,pagina*articulosPorPagina)" @click="anadirCarrito($event)">
+                <h3 class="nombreProducto">{{ i.title }}</h3>
+                <p class="precio">{{ i.normalPrice }} €</p>
+                <button class="boton">Añadir al carrito</button>
+            </div>
+        </div>
+        <div class="pagination">
+            <div class="buttons">
+                <button @click="pagina--" :disabled="pagina==1" id="anterior">Anterior</button>
+                <button @click="pagina++" :disabled="pagina==Math.ceil(articulos.length/articulosPorPagina)"
+                    id="siguiente">Siguiente</button>
+            </div>
+            <p>Página: {{ pagina }}/{{ totalPaginas}}</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
